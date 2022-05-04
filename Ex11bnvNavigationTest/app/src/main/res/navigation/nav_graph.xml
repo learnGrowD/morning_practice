@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment1">
+
+    <fragment
+        android:id="@+id/fragment1"
+        android:name="com.will_d.ex11bnvnavigationtest.Fragment1"
+        android:label="Fragment1"/>
+    <fragment
+        android:id="@+id/fragment2"
+        android:name="com.will_d.ex11bnvnavigationtest.Fragment2"
+        android:label="Fragment2"/>
+
+    <fragment
+        android:id="@+id/fragment3"
+        android:name="com.will_d.ex11bnvnavigationtest.Fragment3"
+        android:label="Fragment3" />
+
+    <fragment
+        android:id="@+id/fragment4"
+        android:name="com.will_d.ex11bnvnavigationtest.Fragment4"
+        android:label="Fragment4"/>
+
+
+    <action
+        android:id="@+id/action_global_fragment1"
+        app:destination="@id/fragment1"/>
+
+    <action
+        android:id="@+id/action_global_fragment2"
+        app:destination="@id/fragment2"/>
+
+    <action
+        android:id="@+id/action_global_fragment3"
+        app:destination="@id/fragment3"/>
+
+    <action
+        android:id="@+id/action_global_fragment4"
+        app:destination="@id/fragment4"/>
+
+
+
+
+</navigation>

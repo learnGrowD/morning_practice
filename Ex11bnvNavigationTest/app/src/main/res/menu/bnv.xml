@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fragment1"
+        android:icon="@mipmap/ic_launcher"
+        android:enabled="true"
+        android:title="a"/>
+
+    <item
+        android:id="@+id/fragment2"
+        android:icon="@mipmap/ic_launcher"
+        android:enabled="true"
+        android:title="b"/>
+
+    <item
+        android:id="@+id/fragment3"
+        android:icon="@mipmap/ic_launcher"
+        android:enabled="true"
+        android:title="c"/>
+
+    <item
+        android:id="@+id/fragment4"
+        android:icon="@mipmap/ic_launcher"
+        android:enabled="true"
+        android:title="d"/>
+
+</menu>

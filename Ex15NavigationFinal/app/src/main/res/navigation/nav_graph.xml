@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/placeholder">
+
+    <dialog
+        android:id="@+id/dialogfragment_a"
+        android:name="com.will_d.ex15navigationfinal.DialogFragmentTest"
+        tools:layout="@layout/dialogfragment_a">
+
+        <action
+            android:id="@+id/action_dialogfragment_a_to_dialogfragment_b"
+            app:destination="@id/dialogfragment_b" />
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/dialogfragment_b"
+        android:name="com.will_d.ex15navigationfinal.DifDialogFragment"
+        tools:layout="@layout/dialogfragment_b"/>
+
+    <fragment
+        android:id="@+id/fragment_a"
+        android:name="com.will_d.ex15navigationfinal.AFragment"
+        tools:layout="@layout/fragment_a">
+        <action
+            android:id="@+id/action_fragment_a_to_fragment_b"
+            app:destination="@id/fragment_b"
+            app:launchSingleTop="true" />
+<!--        밑에서 차례대로 ABA가 쌓여있다 치자 이때 A를 또 쌓으려 할때 launchSingletop이면 A가 중복되서 쌓이지 않고 하나면 유지된다 고로 ABA가 그대로 유지 된다!!-->
+
+        <action
+            android:id="@+id/action_fragment_a_to_dialogfragment_a"
+            app:destination="@id/dialogfragment_a"/>
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/fragment_b"
+        android:name="com.will_d.ex15navigationfinal.BFragment"
+        tools:layout="@layout/fragment_b">
+
+<!--        local action..-->
+        <action
+            android:id="@+id/action_fragment_b_to_fragment_c"
+            app:destination="@id/fragment_c"/>
+
+<!--        기본적인 data 전달 -->
+<!--        논리형 : Boolean-->
+<!--        정수형 : Integer, Long-->
+<!--        실수형 : Float-->
+<!--        전달 가능..-->
+<!--        1. 배열이냐, 배열이 아니냐-->
+<!--        1.1.만약 배열이라면... : nullable한가, nullable하지 않는가-->
+<!--        nullable 하다면 default value로 null이 될수도 배열 객체가 참조가 될수도 있고 nullable 하지 않다면 null을 참조할 수 없으니 배열 객체를 반드시 참조해야 하고-->
+<!--        위의 내용은 배열에 대해 알면 너무나 당연한 소리 당연히 null또는 배열객체 참조하는게 맞는데 nullable하느냐 않하느냐의 차이로 참조의 가능성이 결정됨 즉 nullable하다는것은 -->
+<!--        코틀린에서의 ?참조형과 같음.-->
+<!--        1.2.배열이 아니라면-->
+<!--        Boolean, Int, Long, Float과 같은 자료형은 null이 될 수 없고 default값은 가질 수 있겠지, String은 nullalble 할 수 있고 defualt값을 가질 수 있겠지!!-->
+
+
+<!--        이거랑-->
+        <argument
+            android:name="arr"
+            app:argType="string[]" />
+
+
+<!--        이거랑 같은내용-->
+        <argument
+            android:name="arr2"
+            app:argType="integer[]"
+            app:nullable="true" />
+
+
+<!--        <argument-->
+<!--            android:name="arr3"-->
+<!--            app:argType="string[]"-->
+<!--            app:nullable="true"-->
+<!--            android:defaultValue="@null" />-->
+
+<!--        <argument-->
+<!--            android:name="bl"-->
+<!--            app:argType="boolean"/>-->
+
+<!--        <argument-->
+<!--            android:name="it"-->
+<!--            app:argType="integer"-->
+<!--            android:defaultValue="10"/>-->
+
+<!--        <argument-->
+<!--            android:name="str"-->
+<!--            app:argType="string"/>-->
+
+<!--        <argument-->
+<!--            android:name="str2"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true"/>-->
+
+<!--        <argument-->
+<!--            android:name="str3"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="true"-->
+<!--            android:defaultValue="@null"/>-->
+
+<!--        <argument-->
+<!--            android:name="str4"-->
+<!--            app:argType="string"-->
+<!--            android:defaultValue="DO HAK TAE"/>-->
+
+
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_c"
+        android:name="com.will_d.ex15navigationfinal.CFragment"
+        tools:layout="@layout/fragment_c">
+
+        <action
+            android:id="@+id/action_fragment_c_to_fragment_d"
+            app:destination="@id/fragment_d"
+            app:popUpTo="@id/fragment_b"
+            app:popUpToInclusive="true"/>
+
+        <argument
+            android:name="user"
+            app:argType="com.will_d.ex15navigationfinal.User" />
+
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/fragment_d"
+        android:name="com.will_d.ex15navigationfinal.DFragment"
+        tools:layout="@layout/fragment_d">
+
+
+<!--        resource보낼때 사용하는것 예 :) @drawable.ic_d-->
+        <argument
+            android:name="aa"
+            app:argType="reference"
+            android:defaultValue="0"/>
+    </fragment>
+
+
+    <!--    global action..-->
+    <action
+        android:id="@+id/action_global_fragment_a"
+        app:destination="@id/fragment_a"/>
+
+    <fragment android:id="@+id/placeholder" >
+        <action
+            android:id="@+id/action_placeholder_to_fragment_a"
+            app:destination="@id/fragment_a" />
+    </fragment>
+
+
+</navigation>

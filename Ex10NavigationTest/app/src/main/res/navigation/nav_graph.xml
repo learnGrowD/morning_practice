@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/londonFragment">
+
+    <fragment
+        android:id="@+id/londonFragment"
+        android:name="com.will_d.ex10navigationtest.LondonFragment"
+        android:label="LondonFragment"
+        tools:layout="@layout/fragment_london">
+    </fragment>
+
+    <fragment
+        android:id="@+id/parisFragment"
+        android:name="com.will_d.ex10navigationtest.ParisFragment"
+        android:label="ParisFragment"
+        tools:layout="@layout/fragment_paris">
+    </fragment>
+
+    <fragment
+        android:id="@+id/italyFragment"
+        android:name="com.will_d.ex10navigationtest.ItalyFragment"
+        android:label="ItalyFragment"
+        tools:layout="@layout/fragment_italy">
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_londonFragment"
+        app:destination="@id/londonFragment"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popUpToSaveState="true"/>
+
+    <action
+        android:id="@+id/action_global_italyFragment"
+        app:destination="@id/italyFragment"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popUpToSaveState="true"/>
+
+    <action
+        android:id="@+id/action_global_parisFragment"
+        app:destination="@id/parisFragment"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popUpToSaveState="true"/>
+
+</navigation>

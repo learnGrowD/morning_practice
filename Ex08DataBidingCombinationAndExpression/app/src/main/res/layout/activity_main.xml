@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+<!--        데이터 결합 코드 특징 -->
+        <!--        <import type="" => Kotlin, Java에서의 패키지명을 미리 써놈으로서 간편하게 클래스를 사용하듯이 똑같음 -->
+        <!--        <variable name="" type="" => 변수 />-->
+
+        <!--        속성 참조 가능-->
+        <!--        다른 View의 ID 참조 가능-->
+        <!--        null포인터 예외 방지 -->
+<!--       데이터 결합 코드 -> 기본적으로 null 및 스레드 안전성 확보 -->
+<!--       표현식이 null 객체로 인해 계산할 수 없으면 null, 0, false, ""로 기본값을 반환해줌-->
+<!--       함수표현식에서 만약 표현식이 null로 계산되면 null리스너 설정-->
+
+
+        <!--        표현식 언어 -->
+        <!--        사용 가능 => 일반적으로 java에서 사용하는것들은 다 사용 가능-->
+        <!--        대표사례 : instanceOf, [], 삼항연산자 ?: -->
+        <!--        특수사례 : ??(Null 병합 연산자) => Kotlin의 엘비스 연산자와 똑같음 -->
+        <!--        사용 불가능 => this, super, new, 명시적 제네릭 호출 -->
+        <import type="android.view.View"/>
+        <import type="com.will_d.ex08databidingcombinationandexpression.Model"/>
+
+
+        <variable
+            name="model"
+            type="Model" />
+
+<!--        java.lang 클래스는 java와 kotlin의 문서와 같이 import 필요 없음 : String, Object -->
+<!--        java 와 kotlin에서 변수를 만드는 것을 xml에서 변수를 만들어 보자-->
+<!--        여기서 만들어지는 변수는 말 그대로 참조변수 이기 때문에 Java, Kotlin에서 객체의 주소를 전달하여 이 변수들이 참조를 할 수 있도록 해야 한다 : [MainActivity 참고] -->
+<!--        다른 클래스 가져오기-->
+<!--        별병 붙이기 가능-->
+        <import type="android.view.View" alias="Vista"/>
+        <import type="android.util.SparseArray"/>
+        <import type="java.util.Map"/>
+        <import type="java.util.List"/>
+        <variable
+            name="str"
+            type="String" />
+
+        <variable
+            name="sArr"
+            type="SparseArray&lt;String>" />
+
+        <variable
+            name="mList"
+            type="List&lt;String>" />
+
+        <variable
+            name="mMap"
+            type="Map&lt;String, Object>" />
+
+        <variable
+            name="indext"
+            type="int" />
+
+        <variable
+            name="key"
+            type="String" />
+
+        <variable
+            name="model2"
+            type="Model" />
+
+
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".MainActivity">
+
+            <!--        속성 참조-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.firstName}"/>
+
+            <!--        ID 참조 가능 -->
+            <EditText
+                android:id="@+id/et_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!--        결합 클래스는 ID를 카멜 표기법으로 변환 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{etTest.text}"/>
+
+            <!--        null 포인터 예외 방지-->
+            <!--        데이터 결합 코드는 스스로 null값을 체크하고 만약 model이 null이면 null값을 할당-->
+            <!--        속성이 널이면 예외처리됨, GUI환경은 String => 그럼으로 text 속성에 int가 들어가면 예외처리-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.a}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(model.b)}"/>
+
+
+            <!--        데이터 결합 코드 표현식 언어 -> Java에서 쓰는 언어 거의 그대로 쓰면 됨...(if else문은 없는거 같음, java의 언어를 지원함) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VISIBLE, GONE Test"
+                android:visibility="@{model.age > 10 ? View.VISIBLE : View.GONE}"/>
+
+
+            <!--       Null 병합 연산자(??) => Kotlin의 엘비스 연산자와 같음-->
+            <!--       문자열 리터널 -> "@{}" 에서 문자열을 표현하고 싶어 그럼어떻게? ``(문자열 리터널)이거 사용하면 됨-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.c ?? `android is fun`}"/>
+
+            <!--       위에서 만든 참조변수들을 사용해보자 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{mList != null ? mList[indext] : `ㅎㅎㅎ`}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{mMap[key] != null ? mMap[key] : `ㅆㅅ`}"/>
+
+            <!--        리소소 참조가능 => dimen, string 등... -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/test1}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{10>11 ? @string/test1 : @string/test2}"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@{11>10 ? @drawable/ic_launcher_background : @drawable/ic_launcher_foreground}"/>
+
+            <!--            이벤트 처리-->
+            <!--            1. 메서드 참조-->
+            <!--            2. 리스너 결합-->
+
+            <!--            메서드 참조 -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.name}"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{model::chnageName}"/>
+
+            <!--        리스너 참조-->
+            <!--        리스너 참조는 파라미터를 아예 전달하지 않거나 전달을 하는 경우가 있음-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(model.age2)}"/>
+
+
+            <!--        파라미터를 아예 전달하지 않는 경우-->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="리스너 참조"
+                android:onClick="@{() -> model.increaseAge2()}"/>
+
+
+            <!--        파라미터를 전달하는 경우-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.name2}"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{(view) -> model.changeName2(view)}"/>
+
+
+            <TextView
+                android:id="@+id/tv_script"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="리스너 참조에서 파라미터를 전달하는 경우 연습"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{tvScript.text}"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{(cb, isChecked) ->model.onCompletedChanged(tvScript, isChecked)}"/>
+
+            <!--        자기 자신 보내기 테스트-->
+
+            <Button
+                android:id="@+id/btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="파라미터로 자기 자신 뷰 보내보기"
+                android:onClick="@{() -> model.changeText(btn)}"/>
+
+            <!--        onClick이 리턴타입이 void지만 return을 bolean같은 걸로 해보기!!-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.parmsTest()}" />
+
+<!--        onClick return타입 void 근데 onClick에 설정해준 리스너의 리턴타입이 String 이므로 이거 에러!!-->
+<!--            즉 결론적으로 말하면 리스너의 리턴타입 일치해야함-->
+<!--            onClick -> void -->
+<!--            onLongClick -> boolean -->
+<!--            <Button-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@{() -> model.parmsTest()}"/>-->
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onLongClick="@{() -> model.onLongClickTest()}"/>
+
+<!--           null 안정성 -->
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> model2.increaseAge2()}"/>
+<!--            model2는 참조를 안했으므로 null이지만 null안정성으로 인해 에러는 아님.-->
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="#FF333333"
+                android:textColor="@color/white"
+                android:text="@{String.valueOf(model2.b)}"/>
+
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="#FF333333"
+                android:textColor="@color/white"
+                android:layout_marginTop="12dp"
+                android:text="@{String.valueOf(model2.re)}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This is Vista"
+                android:visibility="@{ 11 > 10 ? Vista.VISIBLE : Vista.GONE}"/>
+
+
+
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>
