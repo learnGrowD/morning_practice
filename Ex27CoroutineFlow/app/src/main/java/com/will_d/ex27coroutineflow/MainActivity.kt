@@ -7,6 +7,7 @@ import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.lang.Exception
+import java.lang.RuntimeException
 import kotlin.math.log
 import kotlin.system.measureTimeMillis
 
@@ -391,6 +392,101 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        //flow 완료
+        //예제#27 기본
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                simple27().collect{
+                    Log.i("CoroutineFlowTest#27", "" + it)
+                }
+            } finally {
+                Log.i("CoroutineFlowTest#27", "Done")
+            }
+        }
+
+        //예제#28 onCompletion..
+        CoroutineScope(Dispatchers.Default).launch {
+            simple28()
+                .onCompletion {
+                    Log.i("CoroutineFlowTest#28", "Done")
+                }
+                .collect{
+                    Log.i("CoroutineFlowTest#28", "" + it)
+                }
+        }
+
+        //예제29 onCompletion..이점..
+        CoroutineScope(Dispatchers.Default).launch {
+            simple29()
+                .onCompletion { cause -> if (cause != null) Log.i("CoroutineFlowTest#29", "Flow completed exceptionally" + cause) }
+                .catch { cause -> Log.i("CoroutineFlowTest#29", "Caught exception" + cause) }
+                .collect{
+                    Log.i("CoroutineFlowTest#29", "" + it)
+                }
+        }
+
+        //예제#30 성공적인 완료
+        CoroutineScope(Dispatchers.Default).launch {
+            (1..3).asFlow()
+                .onCompletion { cause -> Log.i("CoroutineFlowTest#30", "Flow completed with $cause") }
+                .collect{
+                    
+                }
+        }
+
+
+        //예제#31 launching flow
+        CoroutineScope(Dispatchers.Default).launch {
+            (1..3).asFlow().onEach {
+                Log.i("CoroutineFlowTest#31", "haha")
+                delay(100)
+            }.onEach { event -> Log.i("CoroutineFlowTest#31", "Event : $event") } //->Flow가 수집되는 동안 기다림 그다음 Done을 실행
+                .collect()
+            Log.i("CoroutineFlowTest#31", "Done")
+        }
+
+        //예제#32 -> launch flow
+        CoroutineScope(Dispatchers.Default).launch { // --> launchIn을 사용하면 바로 실행함.
+            (1..3).asFlow().onEach { delay(100) }
+                .onEach { event -> Log.i("CoroutineFlowTest#32","Event : $event") }
+                .launchIn(this)
+            Log.i("CoroutineFlowTest#32", "Done")
+        }
+
+        //예제#33 flow 취소 검사 (flw cancellation task)
+        CoroutineScope(Dispatchers.Default).launch {
+            foo().collect {
+                if (it == 3) cancel()
+                Log.i("CoroutineFlowTest#33", "" + it)
+            }
+        }
+
+        CoroutineScope(Dispatchers.Default).launch {
+            foo().collect {
+                if (it == 3) cancel()
+                Log.i("CoroutineFlowTest#33-2", "" + it)
+            }
+        }
+
+        //취소 가능한 바쁜 상태의 flow 만들기
+        CoroutineScope(Dispatchers.Default).launch {
+            (1..5).asFlow().cancellable().collect {
+                if (it == 3) cancel()
+                Log.i("CoroutineFlowTest#34", "" + it)
+            }
+        }
+
+        CoroutineScope(Dispatchers.Default).launch {
+            (1..5).asFlow().onEach { currentCoroutineContext().ensureActive() }.collect {
+                if (it == 3) cancel()
+                Log.i("CoroutineFlowTest#34-2", "" + it)
+            }
+        }
+
+
+
+
+
 
 
 
@@ -400,6 +496,27 @@ class MainActivity : AppCompatActivity() {
         //sharedFlow...
 
     }
+
+    //예제#32
+    fun foo() : Flow<Int> = flow {
+        for (i in 1..3) {
+            Log.i("CoroutineFlowTest#33", "Emitting $i")
+            emit(i)
+        }
+    }
+
+
+    //예제#29
+    fun simple29() : Flow<Int> = flow {
+        emit(1)
+        throw RuntimeException()
+    }
+
+    //예제#28
+    fun simple28() : Flow<Int> = (1..3).asFlow()
+
+    //에제#27
+    fun simple27() : Flow<Int> = (1..3).asFlow()
     //예제#26
     fun simple26() : Flow<Int>  = flow {
         for (i in 1..3) {
