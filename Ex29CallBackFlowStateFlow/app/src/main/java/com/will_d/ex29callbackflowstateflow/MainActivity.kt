@@ -70,6 +70,8 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG, "state collect End #2 - ${Thread.currentThread().name}")
         }
 
+        
+
 
 
     }
